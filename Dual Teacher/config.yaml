@@ -1,0 +1,50 @@
+real_root: /home/jsathyan/noadsm/RPTU_forest_real_dataset/
+sim_root: /home/jsathyan/noadsm/trees/
+
+teacher_ckpt_a: /mnt/public/learning/datasets/rrlab/Multispectral_Camera_forest/whole_tree/epoch_24.pth
+teacher_ckpt_b: /mnt/public/learning/datasets/rrlab/Multispectral_Camera_forest/tree_trunk/epoch_24.pth
+teacher_cfg: /home/jsathyan/Thesis/WACS/real_world/pytorch/mean_teacher/teacher_config.py
+
+arch: maskrcnn
+arch_teacher: mmdet_maskrcnn_swin_t
+num_classes: 1
+
+epochs: 65
+batch_size: 48
+labeled_batch_size: 16
+workers: 8
+checkpoint_epochs: 1
+warmup_epochs: 10
+
+lr: 0.0001
+lr_min: 0.000001
+
+lr_schedule:
+  type: cosine
+
+weight_decay: 0.01
+optimizer: 
+  type: AdamW
+  betas: [0.9, 0.999]
+  clip_grad_norm: 1.0
+
+
+conf_threshold: 0.5 
+disagree_threshold: 0.8 
+kd_weight: 1.0 
+kd_rampup: 10
+kd_temp: 2.0 
+
+gpu_id: 2
+
+real_task: tree
+sim_tasks: whole_tree,tree_trunk
+train_split: train
+eval_split: val
+start_epoch: 0
+print_freq: 10
+evaluation_epochs: 1
+fuse_rule: hier
+
+resume: /home/jsathyan/Thesis/WACS/real_world_updates/results/main/2026-01-05_10:41:52/0/transient/checkpoint.50.ckpt
+evaluate: False
